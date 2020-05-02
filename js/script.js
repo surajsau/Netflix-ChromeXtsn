@@ -15,8 +15,6 @@ $(function(){
 
 			addBobObserver();
 
-			checkForSliderItem($('.mainView'));
-
 		  	$(window).resize(debouncedCheckForSliderItem);
 		  	$(window).scroll(debouncedCheckForSliderItem);
 
@@ -27,18 +25,17 @@ $(function(){
 
 $(document).on('click', '.button-watch-list', function() {
 	let videoId = getButtonVideoId($(this));
-	let isVideoWatched = checkVideoIsWatched(videoId);
+	let isVideoWatchedCurrently = checkVideoIsWatched(videoId);
 
-	if(isVideoWatched) {
+	if(isVideoWatchedCurrently) {
 		removeFromWatchedList(videoId);
 	} else {
-		addToWatchedList(videoId);
+		let videoInfo = fetchVideoDetailsFromFocusedCard();
+		addToWatchedList(videoId, videoInfo);
 	}
 
-	let actionButtonContainer = $(this).parent('.jawbone-actions');
-	$(this).remove();
+	changeWatchButtonAppearance($(this), !isVideoWatchedCurrently);
 
-	appendWatchButton(actionButtonContainer, videoId);
 });
 
 const debouncedCheckForSliderItem = _.partial(_.debounce(checkForSliderItem, 1000), $('.mainView'));
@@ -63,10 +60,6 @@ function addJawboneObserver() {
 
 		var actionButtonContainer = $(this).siblings('.jawbone-actions');
 		let isVideoWatched = checkVideoIsWatched(videoId);
-
-		let focusedVideoDetails = fetchVideoDetailsFromFocusedCard();
-
-		console.log({videoId: focusedVideoDetails});
 
 		$('.jawBoneContainer .jaw-play-hitzone').css('width', '25%');
 
@@ -114,9 +107,9 @@ function checkStatusOfSliderItem(element) {
 	let isVideoWatched = checkVideoIsWatched(videoId);
 
 	if(isVideoWatched) {
-		let isAlreadyLabeled = isAlreadyLabeled(element);
+		let isLabeled = isAlreadyLabeled(element);
 		
-		if(!isAlreadyLabeled)
+		if(!isLabeled)
 			return;
 
 		addWatchedLabel(element);

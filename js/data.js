@@ -53,6 +53,7 @@ function getButtonVideoId(element) {
 }
 
 function fetchVideoDetailsFromFocusedCard() {
+	// at any given time there will only be 1 title-card-jawbone-focus div
 	let ptrackContent = $('.title-card-jawbone-focus').parent();
 
 	let imageContainer = ptrackContent.find('.boxart-container img');

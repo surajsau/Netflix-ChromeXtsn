@@ -34,13 +34,12 @@ function removeWatchedLabel(element) {
 */
 function appendWatchButton(container_element, videoInfo, isVideoWatched) {
 
-	// these are predefined netflix class ids which are already used on the 'Play' and 'Add to List' buttons
-	let buttonClass = isVideoWatched ? 'watched' : 'add-to-watch';
+	let buttonColor = getWatchButtonBackgroundColor(isVideoWatched);
 
-	let buttonText = isVideoWatched ? 'Watched' : 'Add to Watched';
+	let buttonText = getWatchButtonText(isVideoWatched);
 	
 	// these are the predefined icons already used on the 'Play' and 'Add to List' buttons
-	let buttonIconPath = isVideoWatched ? 'M3.707 12.293l-1.414 1.414L8 19.414 21.707 5.707l-1.414-1.414L8 16.586z' : 'M13 11h8v2h-8v8h-2v-8H3v-2h8V3h2v8z';
+	let buttonIconPath = getWatchButtonIcon(isVideoWatched);
 
 	// <button aria-label="Remove from My List" class="button-secondary opacity-60 medium hasLabel ltr-14a0la9" data-uia="add-to-my-list-added" type="button">
 	// <div class="icon ltr-1e4713l">
@@ -53,7 +52,7 @@ function appendWatchButton(container_element, videoInfo, isVideoWatched) {
 	// <span class="ltr-18i00qw">My List</span></button>
 
 	let appended_html = `
-				<button class="button-watch-list button-secondary opacity-60 medium ${buttonClass} hasLabel ltr-14a0la9" type="button" videoId="${videoInfo}">
+				<button class="jawbone-watch-button button-watch-list" type="button" videoId="${videoInfo}" type="button" style="background-color:${buttonColor}">
 					<div class="icon ltr-1e4713l">
 						<div class="medium ltr-sar853" role="presentation">
 							<svg viewBox="0 0 24 24">
@@ -62,8 +61,29 @@ function appendWatchButton(container_element, videoInfo, isVideoWatched) {
 						</div>
 					</div>
 					<div class="ltr-1i33xgl" style="width: calc(0.72rem);"></div>
-					<span class="ltr-18i00qw">${buttonText}</span>
+					<span class="ltr-18i00qw button_text_span">${buttonText}</span>
 				</button>`
 
 	$(container_element).prepend(appended_html);
 }
+
+function changeWatchButtonAppearance(element, isVideoWatched) {
+	element.css('background-color', getWatchButtonBackgroundColor(isVideoWatched));
+	element.find('span').html(getWatchButtonText(isVideoWatched));
+	element.find('path').attr('d', getWatchButtonIcon(isVideoWatched));
+}
+
+function getWatchButtonBackgroundColor(isVideoWatched) {
+	return isVideoWatched ? 'rgba(229, 9, 20, 1.0)' : 'rgba(133, 133, 133, 0.6)';
+}
+
+function getWatchButtonText(isVideoWatched) {
+	return isVideoWatched ? 'Watched' : 'Add to Watched';
+}
+
+function getWatchButtonIcon(isVideoWatched) {
+	return isVideoWatched ? 'M3.707 12.293l-1.414 1.414L8 19.414 21.707 5.707l-1.414-1.414L8 16.586z' : 'M13 11h8v2h-8v8h-2v-8H3v-2h8V3h2v8z';
+}
+
+
+
