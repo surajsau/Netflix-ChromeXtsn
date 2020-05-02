@@ -13,3 +13,11 @@
 .watched-button {
   margin-left: 2vw;
 }
+
+.ltr-14a0la9.add-to-watch {
+	background-color: rgba(133, 133, 133, 0.6);
+}
+
+.ltr-14a0la9.watched {
+	background-color: rgba(229, 9, 20, 0.6);
+}
