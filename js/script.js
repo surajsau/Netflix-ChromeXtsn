@@ -4,12 +4,12 @@ let watched_json = {};
 // on document ready
 $(function(){
 	// fetch the list of video ids saved in chrome local storage
-	chrome.storage.local.get(['watched'], function(result){
-		let watched = result.watched || "{}";
+	chrome.storage.local.get(['netflix_watched_list'], function(result){
+		let watched = result.netflix_watched_list || "{}";
 		console.log(watched);
 
 		watched_json = JSON.parse(watched);
-		checkVisibleItem($('.mainView'));
+		checkForSliderItem($('.mainView'));
 	});
 
 	// run the main function after 5 seconds (assuming internet is little slow also)
@@ -45,43 +45,41 @@ $(document).on('click', '.watch-button', function(){
 	}
 });
 
-function checkVisibleItem(element) {
-	let base = $('.slider-item').add(element);
-
-	base.filter((index, element) => {
-		return $(element).attr('class').match(/slider-item-\d+/);
-	}).each((index, element) => {
-		checkForSingleItem(element, '.ptrack-content')
-	});
+function checkForSliderItem(element) {
+	$('.slider-item')
+		.add(element)
+		.filter(function(index, element) {
+			return $(element).attr('class').match(/slider-item-\d+/);
+		})
+		.each(function(index, element) {
+			checkStatusOfSliderItem($(element), '.ptrack-content')
+		});
 }
 
-function checkForSingleItem(element, insert_parent_class) {
+function checkStatusOfSliderItem(element, insert_parent_class) {
 	let videoId = getVideoId(element);
 
-	let insert_parent = $(element).find(insert_parent_class);
+	let insert_parent = element.find(insert_parent_class);
 
-	if(checkVideoIsWatched(videoId)) {
-
-		if($(insert_parent).find('.span-container').length > 0) {
+	if(checkVideoIsWatched(videoId = videoId)) {
+		let isAlreadyLabeled = element.children().hasClass('watched-span-container');
+		
+		if(!isAlreadyLabeled)
 			return;
-		}
 
-		$(insert_parent).append(
+		$(insert_parent).prepend(
 			`
-				<div class="span-container">
+				<div class="watched-span-container">
 					<span class="watched-span">Watched</span>
 				</div>
 			`);
 	} else {
-
-		if($(insert_parent).find('.span-container').length > 0) {
-			$(insert_parent).remove('.span-container');
-		}
+		$(insert_parent).remove('.watched-span-container');
 	}
 }
 
 function checkVideoIsWatched(videoId) {
-	return videoId in watched_json;
+	return watched_json.hasOwnProperty(videoId);
 }
 
 /*
@@ -102,7 +100,7 @@ function getVideoId(element) {
 	}
 }
 
-const debouncedRateAll = _.partial(_.debounce(checkVisibleItem, 1000), $('.mainView'));
+const debouncedRateAll = _.partial(_.debounce(checkForSliderItem, 1000), $('.mainView'));
 
 function main() {
 
@@ -114,7 +112,7 @@ function main() {
 
 	addBobObserver();
 
-	checkVisibleItem($('.mainView'));
+	checkForSliderItem($('.mainView'));
 
   	$(window).resize(debouncedRateAll);
   	$(window).scroll(debouncedRateAll);
@@ -148,21 +146,13 @@ function addSliderObservers() {
 	selected from the list.
 */
 function addJawboneObserver() {
-	$('.mainView').observe('added', '.jawBone', function(record){
-		let action_container = $(this).find('.jawbone-actions');
-		let videoId = getVideoId(action_container);
+	$('.mainView').observe('added', '.jawBoneContainer .synopsis', function(record){
+		let overviewContainer = $(this).parentsUntil('.overview');
+		let videoId = getVideoId(overviewContainer);
 
 		console.log(videoId);
 
-		/*
-		 	sometimes the data doesn't get loaded in jawBone because of which, the returned
-		 	videoId is undefined. This creates inconsistency with the watched status of the
-		 	selected jawBone
-		*/
-		if(videoId) {
-			appendWatchButton(action_container, videoId);
-		}
-
+		appendWatchButton(action_container, videoId);
 	});
 }
 

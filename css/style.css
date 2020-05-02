@@ -1,20 +1,15 @@
-.span-container {
-	opacity: 1;
-  	position: absolute;
-  	top: 0;
-  	right: 0;
-  	left: 0;
-  	text-align: right;
-  	margin-top: -0.9vw;
-  	margin-right: -0.2vw;
+.watched-span-container {
+  opacity: 1;
+    text-align: left;
+  background: #E50914;
+  display: block;
 }
 
-.watched-span {
-	color: #FFFFFF;
-	background: #E50914;
-	font-size: 1em;
+.watched-span-container span {
+  color: #FFFFFF,
+  font-size: 1em;
 }
 
 .watched-button {
-	margin-left: 2vw;
+  margin-left: 2vw;
 }
