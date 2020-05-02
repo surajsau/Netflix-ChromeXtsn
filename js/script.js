@@ -7,17 +7,13 @@ $(function(){
 		// run the main function after 5 seconds (assuming internet is little slow also)
 		setTimeout(function() {
 
-			checkForSliderItem();
+			checkForSliderItem($('.mainView'));
 
 			addNewTabOption(chrome.extension.getURL('watched_list/index.html'), "Watched");
 
 			addSliderObservers();
 
 			addJawboneObserver();
-
-		  	$(window).resize(debouncedCheckForSliderItem);
-		  	$(window).scroll(debouncedCheckForSliderItem);
-
 
 		}, 5000);
 	});
@@ -38,15 +34,17 @@ $(document).on('click', '.button-watch-list', function() {
 
 });
 
-const debouncedCheckForSliderItem = _.partial(_.debounce(checkForSliderItem, 1000), $('.mainView'));
-
 /*
 	This is the observer set on each 'un-interacted' element in the list.
 */
-function addSliderObservers() {
-	$('.sliderContent').observe('added', '.slider-item', function(record){
-		checkStatusOfSliderItem($(this));
-	});
+function addSliderObservers(element) {
+	$('.sliderContent')
+		.add('.mainView')
+		.each(function(index, element) {
+			$(element).observe('added', '.slider-item', function(record) {
+				checkStatusOfSliderItem($(this));
+			});
+		});
 }
 
 /*
@@ -67,9 +65,9 @@ function addJawboneObserver() {
 	});
 }
 
-function checkForSliderItem() {
+function checkForSliderItem(element) {
 	$('.slider-item')
-		.add('.mainView')
+		.add(element)
 		.filter(function(index, element) {
 			return $(element).attr('class').match(/slider-item-\d+/);
 		})
@@ -82,7 +80,7 @@ function checkStatusOfSliderItem(element) {
 
 	let videoId = getVideoId(element);
 
-	if(check(videoId)) {
+	if(checkVideoIsWatched(videoId)) {
 		let isLabeled = isAlreadyLabeled(element);
 		let watchedLabelHtml = `
 			<div class="watched-span-container">
