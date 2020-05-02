@@ -7,13 +7,13 @@ $(function(){
 		// run the main function after 5 seconds (assuming internet is little slow also)
 		setTimeout(function() {
 
+			checkForSliderItem();
+
 			addNewTabOption(chrome.extension.getURL('watched_list/index.html'), "Watched");
 
 			addSliderObservers();
 
 			addJawboneObserver();
-
-			addBobObserver();
 
 		  	$(window).resize(debouncedCheckForSliderItem);
 		  	$(window).scroll(debouncedCheckForSliderItem);
@@ -67,29 +67,6 @@ function addJawboneObserver() {
 	});
 }
 
-/*
-	This is the observer on the view which shows up upon hovering on an
-	item from the list.
-*/
-function addBobObserver() {
-	$('.bob-container').observe('added', '.bob-actions-wrapper', function(record){
-		let action_button_container = $(this).find('.ActionButtons');
-		let videoId = getVideoId(action_button_container);
-
-		$(action_button_container).append(
-			`
-			<div class="nf-svg-button-wrapper">
-				<a class="nf-svg-button simpleround">
-					<svg class="svg-icon" focusable="true">
-						<use xlink:href="#images/add_to_watch"></use>
-					</svg>
-				</a>
-			</div>
-			`
-			);
-	});
-}
-
 function checkForSliderItem() {
 	$('.slider-item')
 		.add('.mainView')
@@ -104,18 +81,18 @@ function checkForSliderItem() {
 function checkStatusOfSliderItem(element) {
 
 	let videoId = getVideoId(element);
-	let isVideoWatched = checkVideoIsWatched(videoId);
 
-	if(isVideoWatched) {
+	if(check(videoId)) {
 		let isLabeled = isAlreadyLabeled(element);
-		
-		if(!isLabeled)
-			return;
+		let watchedLabelHtml = `
+			<div class="watched-span-container">
+				<span class="watched-span">Watched</span>
+			</div>`;
 
-		addWatchedLabel(element);
-		
+		if(!isLabeled)
+			element.prepend(watchedLabelHtml);
 	} else {
-		removeWatchedLabel(element);
+		element.remove('.watched-span-container')
 	}
 }
 
