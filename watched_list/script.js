@@ -1,8 +1,10 @@
 const NETFLIX_BASE_URL = "https://www.netflix.com";
 
+const ROW_SIZE = 6;
+
 // fetch the list of video ids saved in chrome local storage
-chrome.storage.local.get(['watched'], function(result){
-	let watched = result.watched || "{}";
+chrome.storage.sync.get(['netflix_watched_list'], function(result){
+	let watched = result.netflix_watched_list || "{}";
 	console.log(watched);
 
     let watched_json = JSON.parse(watched);
@@ -10,13 +12,25 @@ chrome.storage.local.get(['watched'], function(result){
 });
 
 
-function renderContainer(rows) {
-	rows.forEach(function(item, index){
-		renderRow($('.galleryLockups'), item, index);
-	});
+function renderContainer(videoItems) {
+    let count = 0
+    for(videoId in videoItems) {
+        let videoItem = videoItems[videoId];
+
+        let rowIndex = count/ROW_SIZE;
+        if(count % ROW_SIZE == 0)
+            renderRow($('.galleryLockups'), rowIndex);
+
+        let item = {video_id: videoId, video_image: videoItem.image, video_title: videoItem.title};
+
+        renderSliderItem($('#row-' + rowIndex), item, count);
+
+        count++;
+    }
+	
 }
 
-function renderRow(container, row, row_index) {
+function renderRow(container, row_index) {
 	container.append(
 		`<div class="rowContainer rowContainer_title_card" id="row-${row_index}" bis_skin_checked="1">
             <div class="ptrack-container" bis_skin_checked="1">
@@ -32,11 +46,6 @@ function renderRow(container, row, row_index) {
         </div>
         `
 		);
-
-	row.items.forEach(function(item, index){
-		var row_id = '#row-' + row_index;
-		renderSliderItem($(row_id).find('.sliderContent'), item, index);
-	});
 }
 
 function renderSliderItem(row_container, item, item_index) {
@@ -47,7 +56,7 @@ function renderSliderItem(row_container, item, item_index) {
                     <div class="slider-refocus title-card">
                         <div class="ptrack-content">
                             <a href="${NETFLIX_BASE_URL}/watch/${item.video_id}" role="link" aria-label="Ozark" tabindex="0" aria-hidden="false" class="slider-refocus">
-                                <div class="boxart-size-16x9 boxart-container"><img class="boxart-image boxart-image-in-padded-container" src="${item.image_url}" alt="" />
+                                <div class="boxart-size-16x9 boxart-container"><img class="boxart-image boxart-image-in-padded-container" src="${item.video_image}" alt="" />
                                     <div class="fallback-text-container" aria-hidden="true">
                                         <p class="fallback-text">${item.video_title}</p>
                                     </div>

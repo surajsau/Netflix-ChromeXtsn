@@ -53,10 +53,15 @@ function addSliderObservers(element) {
 */
 function addJawboneObserver() {
 	$('.mainView').observe('added', '.jawBoneContainer .synopsis', function(record){
+
 		let overviewContainer = $(this).parentsUntil('.overview');
 		let videoId = getVideoId(overviewContainer);
 
 		var actionButtonContainer = $(this).siblings('.jawbone-actions');
+
+		if(isWatchButtonAlreadyAdded(actionButtonContainer))
+			return;
+
 		let isVideoWatched = checkVideoIsWatched(videoId);
 
 		$('.jawBoneContainer .jaw-play-hitzone').css('width', '25%');
@@ -78,19 +83,15 @@ function checkForSliderItem(element) {
 
 function checkStatusOfSliderItem(element) {
 
+	if(isAlreadyLabeled(element))
+		return;
+
 	let videoId = getVideoId(element);
 
 	if(checkVideoIsWatched(videoId)) {
-		let isLabeled = isAlreadyLabeled(element);
-		let watchedLabelHtml = `
-			<div class="watched-span-container">
-				<span class="watched-span">Watched</span>
-			</div>`;
-
-		if(!isLabeled)
-			element.prepend(watchedLabelHtml);
+		addLabel(element);
 	} else {
-		element.remove('.watched-span-container')
+		removeLabel(element);
 	}
 }
 

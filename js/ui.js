@@ -14,6 +14,10 @@ function isAlreadyLabeled(element) {
 	return element.children().hasClass('watched-span-container');
 }
 
+function isWatchButtonAlreadyAdded(element) {
+	return element.children().hasClass('jawbone-watch-button');
+}
+
 function addWatchedLabel(element) {
 	$(element)
 		.prepend(
@@ -65,6 +69,19 @@ function appendWatchButton(container_element, videoInfo, isVideoWatched) {
 				</button>`
 
 	$(container_element).prepend(appended_html);
+}
+
+function addLabel(element) {
+	let watchedLabelHtml = `
+			<div class="watched-span-container">
+				<span class="watched-span">Watched</span>
+			</div>`;
+
+	element.prepend(watchedLabelHtml);
+}
+
+function removeLabel(element) {
+	element.remove('.watched-span-container')
 }
 
 function changeWatchButtonAppearance(element, isVideoWatched) {
