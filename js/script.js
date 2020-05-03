@@ -1,5 +1,8 @@
 'use strict';
 
+const ROW_SIZE = 6;
+const NETFLIX_BASE_URL = "https://www.netflix.com";
+
 // on document ready
 $(function(){
 
@@ -10,7 +13,7 @@ $(function(){
 
 			checkForSliderItem($('.mainView'));
 
-			addNewTabOption(chrome.extension.getURL('watched_list/index.html'), "Watched");
+			addNewTabOption("#watched", "Watched");
 
 			addSliderObservers();
 
@@ -49,6 +52,16 @@ $(document).on('click', '.button-watch-list', function() {
 	});
 
 });
+
+$(document).on('click', '.tab-watched', function() {
+
+	$(this).parents('.tabbed-primary-navigation').find('a.current.active').removeAttr('class');
+	$(this).attr('class', 'tab-watched current active');
+	getAll(function(result) {
+		$('.mainView').empty();
+		renderContainer(result);
+	});
+});	
 
 /*
 	This is the observer set on each 'un-interacted' element in the list.
@@ -104,7 +117,9 @@ function checkStatusOfSliderItem(element) {
 
 	checkIfWatched(videoId, function(isWatched) {
 		if(isWatched) {
-			addLabel(element);
+
+			if(!isAlreadyLabeled(element))
+				addLabel(element);
 		} else {
 			removeLabel(element);
 		}

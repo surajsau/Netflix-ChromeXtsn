@@ -21,11 +21,9 @@ function openDB(callback, error) {
 }
 
 function checkIfWatched(videoId, callback) {
-	if(videoId == null)
-		return;
 
 	let objectStore = db.transaction('watched').objectStore('watched');
-	let request = objectStore.get(videoId);
+	let request = objectStore.get('' + videoId);
 
 	request.onsuccess = function(event) {
 
@@ -57,13 +55,9 @@ function addToWatched(videoInfo, callback) {
 
 function getAll(callback) {
 	let objectStore = db.transaction('watched').objectStore('watched');
+	let cursor = objectStore.getAll();
 
-	objectStore.openCursor().onsuccess = function(event) {
-		let cursor = event.target.result;
-
-		while(cursor) {
-			console.log(cursor);
-			cursor.continue();
-		}
+	cursor.onsuccess = function(event) {
+		callback(event.target.result);
 	}
 }
