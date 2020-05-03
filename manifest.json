@@ -1,9 +1,9 @@
 {
   "manifest_version": 2,
  
-  "name": "Netflix Watched",
-  "version": "1.0",
-  "description": "An extension which enables you with the functionality of saving your 'watched' list which Netflix fails to provide.",
+  "name": "WatchedFlix",
+  "version": "0.0.1",
+  "description": "Easily maintain your 'watched' list Netflix shows or movies",
  
   "content_scripts": [{
     "js": [
