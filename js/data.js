@@ -1,35 +1,3 @@
-
-// list of video ids in string format separated by ':'
-let watched_list = {};
-
-function extractChromeStorage(callback) {
-	chrome.storage.sync.get(['netflix_watched_list'], function(result){
-		let watched = result.netflix_watched_list || "{}";
-		console.log(watched);
-
-		watched_list = JSON.parse(watched);
-		callback();
-	});
-}
-
-function checkVideoIsWatched(videoId) {
-	return watched_list.hasOwnProperty(videoId);
-}
-
-function removeFromWatchedList(videoId) {
-	delete watched_list[videoId];
-
-	console.log(videoId + ' deleted: ' + JSON.stringify(watched_list));
-	chrome.storage.sync.set({netflix_watched_list: JSON.stringify(watched_list)});
-}
-
-function addToWatchedList(videoId, videoInfo) {
-	watched_list[videoId] = videoInfo;
-
-	console.log(videoId + ' added: ' + JSON.stringify(watched_list));
-	chrome.storage.sync.set({netflix_watched_list: JSON.stringify(watched_list)});
-}
-
 /*
 	ptrack-content div contains an attribute 'data-ui-tracking-context'
 	which contains the information regarding video_id of the element.

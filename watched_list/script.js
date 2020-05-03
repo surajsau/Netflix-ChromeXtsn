@@ -3,12 +3,12 @@ const NETFLIX_BASE_URL = "https://www.netflix.com";
 const ROW_SIZE = 6;
 
 // fetch the list of video ids saved in chrome local storage
-chrome.storage.sync.get(['netflix_watched_list'], function(result){
-	let watched = result.netflix_watched_list || "{}";
-	console.log(watched);
 
-    let watched_json = JSON.parse(watched);
-	renderContainer(watched_json);
+openDB(function(success) {
+
+    getAll(function(result) {
+        console.log(result);
+    });
 });
 
 

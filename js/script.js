@@ -2,8 +2,9 @@
 
 // on document ready
 $(function(){
-	
-	extractChromeStorage(function () {
+
+	openDB(function(success) {
+		
 		// run the main function after 5 seconds (assuming internet is little slow also)
 		setTimeout(function() {
 
@@ -16,21 +17,36 @@ $(function(){
 			addJawboneObserver();
 
 		}, 5000);
-	});
+
+	}, function(error) {})
+
+	// extractChromeStorage(function () {
+		
+	// });
 });
 
 $(document).on('click', '.button-watch-list', function() {
-	let videoId = getButtonVideoId($(this));
-	let isVideoWatchedCurrently = checkVideoIsWatched(videoId);
+	let button = $(this);
+	let videoId = getButtonVideoId(button);
 
-	if(isVideoWatchedCurrently) {
-		removeFromWatchedList(videoId);
-	} else {
-		let videoInfo = fetchVideoDetailsFromFocusedCard();
-		addToWatchedList(videoId, videoInfo);
-	}
+	checkIfWatched(videoId, function(isWatched) {
+		if(isWatched) {
+			removeFromWatched(videoId, function(event) {
+				changeWatchButtonAppearance(button, false);
+			});
+			// removeFromWatchedList(videoId);
+		} else {
+			let videoInfo = fetchVideoDetailsFromFocusedCard();
+			videoInfo.videoId = videoId;
 
-	changeWatchButtonAppearance($(this), !isVideoWatchedCurrently);
+			addToWatched(videoInfo, function(event) {
+				changeWatchButtonAppearance(button, true);
+			});
+			// addToWatchedList(videoId, videoInfo);
+		}
+
+		// changeWatchButtonAppearance($(this), !isVideoWatchedCurrently);
+	});
 
 });
 
@@ -59,11 +75,12 @@ function addJawboneObserver() {
 
 		var actionButtonContainer = $(this).siblings('.jawbone-actions');
 
-		let isVideoWatched = checkVideoIsWatched(videoId);
+		checkIfWatched(videoId, function(isWatched) {
+			$('.jawBoneContainer .jaw-play-hitzone').css('width', '25%');
 
-		$('.jawBoneContainer .jaw-play-hitzone').css('width', '25%');
-
-		appendWatchButton(actionButtonContainer, videoId, isVideoWatched);
+			appendWatchButton(actionButtonContainer, videoId, isWatched);
+		});
+		
 	});
 }
 
@@ -85,10 +102,13 @@ function checkStatusOfSliderItem(element) {
 
 	let videoId = getVideoId(element);
 
-	if(checkVideoIsWatched(videoId)) {
-		addLabel(element);
-	} else {
-		removeLabel(element);
-	}
+	checkIfWatched(videoId, function(isWatched) {
+		if(isWatched) {
+			addLabel(element);
+		} else {
+			removeLabel(element);
+		}
+	});
+
 }
 

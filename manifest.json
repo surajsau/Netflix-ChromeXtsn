@@ -14,7 +14,8 @@
       "lib/jquery-observe.js",
     	"js/script.js",
       "js/ui.js",
-      "js/data.js"
+      "js/data.js",
+      "js/db.js"
     ],
     "css": [
     	"css/style.css"
@@ -22,7 +23,8 @@
     "matches": ["*://www.netflix.com/*"]
   }],
   "web_accessible_resources":[
-    "watched_list/*"
+    "watched_list/*",
+    "js/db.js"
   ],
   "icons":{
     "16":"icons/icon16.png",
@@ -30,6 +32,6 @@
     "128":"icons/icon128.png"
   },
 
-  "permissions": ["storage"]
+  "permissions": ["storage", "unlimitedStorage"]
  
 }

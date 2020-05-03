@@ -85,6 +85,7 @@ function removeLabel(element) {
 }
 
 function changeWatchButtonAppearance(element, isVideoWatched) {
+	console.log(element);
 	element.css('background-color', getWatchButtonBackgroundColor(isVideoWatched));
 	element.find('span').html(getWatchButtonText(isVideoWatched));
 	element.find('path').attr('d', getWatchButtonIcon(isVideoWatched));
