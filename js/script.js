@@ -59,9 +59,6 @@ function addJawboneObserver() {
 
 		var actionButtonContainer = $(this).siblings('.jawbone-actions');
 
-		if(isWatchButtonAlreadyAdded(actionButtonContainer))
-			return;
-
 		let isVideoWatched = checkVideoIsWatched(videoId);
 
 		$('.jawBoneContainer .jaw-play-hitzone').css('width', '25%');

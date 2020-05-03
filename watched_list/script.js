@@ -17,15 +17,17 @@ function renderContainer(videoItems) {
     for(videoId in videoItems) {
         let videoItem = videoItems[videoId];
 
-        let rowIndex = count/ROW_SIZE;
+        let rowIndex = Math.floor(count/ROW_SIZE);
         if(count % ROW_SIZE == 0)
             renderRow($('.galleryLockups'), rowIndex);
 
         let item = {video_id: videoId, video_image: videoItem.image, video_title: videoItem.title};
 
-        renderSliderItem($('#row-' + rowIndex), item, count);
+        renderSliderItem($('#row-' + rowIndex).find('.sliderContent'), item, count);
 
         count++;
+
+        console.log(rowIndex + ": " + count);
     }
 	
 }
@@ -61,16 +63,8 @@ function renderSliderItem(row_container, item, item_index) {
                                         <p class="fallback-text">${item.video_title}</p>
                                     </div>
                                 </div>
-                                <div class="click-to-change-JAW-indicator">
-                                    <div class="bob-jawbone-chevron">
-                                        <svg class="svg-icon svg-icon-chevron-down" focusable="true">
-                                            <use filter="" xlink:href="#chevron-down"></use>
-                                        </svg>
-                                    </div>
-                                </div>
                             </a>
                         </div>
-                        <div class="bob-container"><span></span></div>
                     </div>
                 </div>
             </div>
