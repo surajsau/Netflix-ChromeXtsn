@@ -7,10 +7,7 @@
  
   "content_scripts": [{
     "js": [
-    	"lib/underscore-min.js",
-      "lib/rate_limit.js",
       "lib/jquery-3.5.0.min.js",
-      "lib/jquery.visible.min.js",
       "lib/jquery-observe.js",
     	"js/script.js",
       "js/ui.js",

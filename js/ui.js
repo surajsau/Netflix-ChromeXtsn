@@ -104,35 +104,28 @@ function getWatchButtonIcon(isVideoWatched) {
 }
 
 
-
-
-
-
-
+function renderHeader(title) {
+	$('.pinning-header-container').append(
+		`
+			<div class="sub-header">
+				<div>
+					<div class="sub-header-wrapper">
+						<div class="galleryHeader">
+							<div class="title">${title}</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		`
+		);
+}
 
 
 function renderContainer(videoItems) {
-    let count = 0
-
     videoItems.forEach(function(item, index, arr) {
-    	let rowIndex = Math.floor(count/ROW_SIZE);
-        if(count % ROW_SIZE == 0)
-            renderRow($('.mainView'), rowIndex);
-
         let videoItem = {video_id: item.videoId, video_image: item.image, video_title: item.title};
-
-        console.log(videoItem);
-        console.log(item);
-
-        renderSliderItem($('#row-' + rowIndex).find('.sliderContent'), videoItem, index);
-
-        count++;
-
-        console.log(rowIndex + ": " + count);
+        renderSliderItem($('.grid'), videoItem, index);
     });
-    for(videoItem in videoItems) {
-        
-    }
 	
 }
 
@@ -157,7 +150,7 @@ function renderRow(container, row_index) {
 function renderSliderItem(row_container, item, item_index) {
 	row_container.append(
 		`
-			<div class="slider-item slider-item-${item_index}">
+			<div class="watched-item slider-item slider-item-${item_index}">
                 <div class="title-card-container">
                     <div class="slider-refocus title-card">
                         <div class="ptrack-content">

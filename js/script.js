@@ -6,14 +6,16 @@ const NETFLIX_BASE_URL = "https://www.netflix.com";
 // on document ready
 $(function(){
 
+	// addNewTabOption("#watched", "Watched");
+
+	$('.pinning-header').after(`<div class="watched-container grid"></div>`);
+
 	openDB(function(success) {
 		
 		// run the main function after 5 seconds (assuming internet is little slow also)
 		setTimeout(function() {
 
 			checkForSliderItem($('.mainView'));
-
-			addNewTabOption("#watched", "Watched");
 
 			addSliderObservers();
 
@@ -54,11 +56,9 @@ $(document).on('click', '.button-watch-list', function() {
 });
 
 $(document).on('click', '.tab-watched', function() {
+	$('.watched-container').toggleClass('expand');
 
-	$(this).parents('.tabbed-primary-navigation').find('a.current.active').removeAttr('class');
-	$(this).attr('class', 'tab-watched current active');
-	getAll(function(result) {
-		$('.mainView').empty();
+	getAllWatched(function(result) {
 		renderContainer(result);
 	});
 });	

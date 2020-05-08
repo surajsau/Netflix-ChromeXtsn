@@ -53,7 +53,7 @@ function addToWatched(videoInfo, callback) {
 	}	
 }
 
-function getAll(callback) {
+function getAllWatched(callback) {
 	let objectStore = db.transaction('watched').objectStore('watched');
 	let cursor = objectStore.getAll();
 
