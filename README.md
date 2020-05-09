@@ -5,7 +5,9 @@
 A Google chrome extension to easily manage your 'Watched' list of Movies and Shows
 
 ## Download Instructions
-Download zip from this [link](https://github.com/surajsau/WatchedFlix/archive/v0.0.1.zip) for the latest version. Unzip it and follow the instructions in (this page)[https://developer.chrome.com/extensions/getstarted].
+Download zip from this [link](https://github.com/surajsau/WatchedFlix/archive/v0.0.1.zip) for the latest version. After downloading unzip it.
+
+You'll need to enable 'Developer Mode' in Google Chrome extensions. Check [this link](https://developer.chrome.com/extensions/getstarted) on how to get started.
 
 Older versions are available in the [Release](https://github.com/surajsau/WatchedFlix/releases) section.
 
@@ -28,10 +30,6 @@ Once marked, even the thumbnail gets labeled with `Watched`.
 <!-- ![Watched List](https://raw.githubusercontent.com/surajsau/Netflix-ChromeXtsn/master/images/watched_list.png) -->
 
 So, Netflix and Chill 🥳
-
-### Prerequisites
-
-You'll need to enable 'Developer Mode' in Google Chrome extensions. Check [this link](https://developer.chrome.com/extensions/getstarted) on how to get started.
 
 ### Installing
 
