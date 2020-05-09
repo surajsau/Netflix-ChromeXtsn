@@ -23,9 +23,9 @@ Once marked, even the thumbnail gets labeled with `Watched`.
 
 ![Watched label](https://raw.githubusercontent.com/surajsau/Netflix-ChromeXtsn/master/images/label.png)
 
-Also, there's a `Watched List` tab which will show you the list of all the Shows you've marked `Watched`. 
+<!-- Also, there's a `Watched List` tab which will show you the list of all the Shows you've marked `Watched`. -->
 
-![Watched List](https://raw.githubusercontent.com/surajsau/Netflix-ChromeXtsn/master/images/watched_list.png)
+<!-- ![Watched List](https://raw.githubusercontent.com/surajsau/Netflix-ChromeXtsn/master/images/watched_list.png) -->
 
 So, Netflix and Chill 🥳
 
