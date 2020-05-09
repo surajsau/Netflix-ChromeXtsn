@@ -4,6 +4,11 @@
 
 A Google chrome extension to easily manage your 'Watched' list of Movies and Shows
 
+## Download Instructions
+Download zip from this [link](https://github.com/surajsau/WatchedFlix/archive/v0.0.1.zip) for the latest version. Unzip it and follow the instructions in (this page)[https://developer.chrome.com/extensions/getstarted].
+
+Older versions are available in the [Release](https://github.com/surajsau/WatchedFlix/releases) section.
+
 ## Getting Started
 
 It gets a little difficult to manage the shows you've watched on Netflix as they don't have a 'Watched' list feature yet. I have been managing my watched list by using 'My List' and rating a show Thumbs up or down. It's with the Thumbs up or down on the shows in 'My List' I get to know that I've watched a particular show.
